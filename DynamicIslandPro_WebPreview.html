@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#080a0e">
+<title>Dynamic Island – Pro</title>
+<style>
+:root{--bg:#080a0e;--panel:#121720;--panel2:#1a222d;--text:#f4f7fb;--muted:#98a4b3;--accent:#b9f6ca;--line:#27313e}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 50% -20%,#24352e 0%,#10151c 34%,var(--bg) 70%);color:var(--text);font:15px Inter,system-ui,-apple-system,Segoe UI,sans-serif;min-height:100vh}
+.wrap{max-width:980px;margin:auto;padding:24px 18px 60px}.top{display:flex;align-items:center;justify-content:space-between;gap:12px}.brand{display:flex;align-items:center;gap:12px}.logo{width:44px;height:44px;border-radius:15px;background:linear-gradient(135deg,#b9f6ca,#4f9c75);display:grid;place-items:center;color:#07110b;font-size:23px;font-weight:900}.brand h1{font-size:21px;margin:0}.brand p{margin:3px 0 0;color:var(--muted);font-size:12px}.tag{border:1px solid #345244;color:var(--accent);border-radius:99px;padding:7px 11px;font-size:11px;letter-spacing:.1em}
+.stage{margin:26px auto 22px;max-width:480px;min-height:285px;border:1px solid #29333e;border-radius:28px;background:linear-gradient(160deg,#161e27,#0c1016);position:relative;overflow:hidden;display:flex;align-items:flex-start;justify-content:center;padding:22px 12px}
+.phone-notch{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,#293b33 0%,transparent 55%);pointer-events:none}
+.island{position:relative;z-index:1;width:160px;min-height:43px;border-radius:30px;background:#020303;box-shadow:0 8px 30px #000b,0 0 0 1px #1b2421;display:flex;align-items:center;padding:8px 13px;gap:10px;cursor:pointer;transition:width .35s cubic-bezier(.2,.8,.2,1),min-height .35s,padding .35s;overflow:hidden}
+.island.expanded{width:min(350px,calc(100vw - 60px));min-height:135px;border-radius:26px;padding:14px}
+.dot{width:8px;height:8px;background:var(--accent);border-radius:50%;box-shadow:0 0 12px var(--accent);flex:none}.mini{font-size:11px;color:#f2f5f3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.island.expanded .mini{display:none}
+.details{display:none;width:100%;align-items:center;gap:12px}.expanded .details{display:flex}.cover{width:52px;height:52px;border-radius:12px;background:linear-gradient(135deg,#345c4a,#111);display:grid;place-items:center;font-size:25px;flex:none}.meta{min-width:0;flex:1}.meta b,.meta small{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.meta small{color:#9daaa4;margin-top:4px}.controls{display:flex;gap:8px;margin-top:12px}.controls button{border:0;background:#202b27;color:white;border-radius:50%;width:29px;height:29px;cursor:pointer}.hint{position:absolute;bottom:17px;color:#778493;font-size:12px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.card{background:linear-gradient(145deg,#151c25,#10151c);border:1px solid var(--line);border-radius:20px;padding:17px}.card h2{font-size:14px;margin:0 0 12px}.muted{color:var(--muted);font-size:12px}.row{display:flex;align-items:center;justify-content:space-between;gap:12px}.value{font-size:22px;font-weight:750}.switch{width:42px;height:24px;border-radius:20px;background:#394451;border:0;padding:3px;cursor:pointer}.switch:after{content:"";display:block;width:18px;height:18px;background:#fff;border-radius:50%;transition:.2s}.switch.on{background:#4e9b70}.switch.on:after{transform:translateX(18px)}
+button,.btn{font:inherit}.action{background:var(--accent);color:#07110b;border:0;border-radius:12px;padding:10px 14px;font-weight:700;cursor:pointer}.secondary{background:#222d38;color:#e8edf2;border:1px solid #34404c;border-radius:12px;padding:9px 12px;cursor:pointer}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.bar{height:7px;background:#2a3540;border-radius:10px;overflow:hidden;margin-top:12px}.bar span{height:100%;display:block;width:68%;background:var(--accent);border-radius:10px}
+input[type=range]{width:100%;accent-color:#9fe5b7}input[type=text]{background:#0c1117;border:1px solid #34404c;color:white;padding:10px;border-radius:10px;width:100%;margin-top:8px}
+.notif{padding:10px 0;border-bottom:1px solid #29323d}.notif:last-child{border:0}.notif b{font-size:13px}.notif p{margin:4px 0 0;color:var(--muted);font-size:12px}
+.timer{font-size:29px;font-variant-numeric:tabular-nums;font-weight:750;letter-spacing:1px;margin:7px 0}
+footer{text-align:center;color:#778493;font-size:11px;margin-top:20px}
+@media(max-width:620px){.grid{grid-template-columns:1fr}.stage{min-height:250px}.top{align-items:flex-start}.tag{margin-top:5px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top"><div class="brand"><div class="logo">◉</div><div><h1>Dynamic Island – Pro</h1><p>Android-inspired interactive web preview</p></div></div><span class="tag">WEB EDITION</span></header>
+<section class="stage" aria-label="Dynamic Island preview"><div class="phone-notch"></div>
+<div class="island" id="island" role="button" tabindex="0" aria-label="Expand Dynamic Island">
+<span class="dot"></span><span class="mini" id="miniText">Ready · Tap to expand</span>
+<div class="details"><div class="cover" id="cover">♫</div><div class="meta"><b id="songTitle">Midnight City</b><small id="artist">M83 · Demo track</small><div class="controls"><button id="prev" aria-label="Previous">|◀</button><button id="play" aria-label="Play or pause">▶</button><button id="next" aria-label="Next">▶|</button></div></div></div>
+</div><div class="hint">Tap the pill to expand or collapse</div></section>
+<div class="grid">
+<section class="card"><div class="row"><h2>Battery & charging</h2><span>⚡</span></div><div class="row"><div><div class="value" id="batteryValue">82%</div><div class="muted" id="chargeText">Battery demo</div></div><button class="switch" id="chargeToggle" aria-label="Toggle charging demo"></button></div><div class="bar"><span id="batteryBar"></span></div></section>
+<section class="card"><div class="row"><h2>Volume indicator</h2><span>🔊</span></div><div class="value" id="volumeValue">65%</div><input id="volume" type="range" min="0" max="100" value="65"><div class="muted">Preview control · does not change device volume</div></section>
+<section class="card"><div class="row"><h2>Notifications</h2><span>●</span></div><div class="notif"><b>Messages · Demo</b><p>Your preview is ready. This is sample notification content.</p></div><div class="notif"><b>System · Demo</b><p>Dynamic Island web preview is running.</p></div><button class="secondary" id="addNotif">Add sample notification</button></section>
+<section class="card"><div class="row"><h2>Timer / stopwatch</h2><span>⏱</span></div><div class="timer" id="timer">00:00</div><div class="actions"><button class="action" id="timerStart">Start</button><button class="secondary" id="timerReset">Reset</button></div><p class="muted">Simple stopwatch for this browser page.</p></section>
+<section class="card"><h2>Island appearance</h2><div class="row"><span class="muted">Accent colour</span><input type="color" id="accent" value="#b9f6ca" aria-label="Accent colour"></div><div class="row" style="margin-top:14px"><span class="muted">Island width</span><span class="muted" id="widthLabel">160 px</span></div><input id="width" type="range" min="130" max="230" value="160"><div class="actions"><button class="secondary" id="theme">Toggle page theme</button><button class="secondary" id="resetStyle">Reset style</button></div></section>
+<section class="card"><h2>Quick demo actions</h2><p class="muted">Change the island's sample content.</p><div class="actions"><button class="secondary" id="musicDemo">Music</button><button class="secondary" id="callDemo">Incoming call</button><button class="secondary" id="clearDemo">Clear</button></div><p class="muted" id="demoStatus" aria-live="polite">Demo ready.</p></section>
+</div>
+<footer>Dynamic Island – Pro · Browser demo only · No data is sent to a server</footer>
+</div>
+<script>
+const $=id=>document.getElementById(id), island=$('island');
+function expand(v){island.classList.toggle('expanded',v===undefined?!island.classList.contains('expanded'):v)}
+island.addEventListener('click',()=>expand());island.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();expand()}});
+let playing=false, track=0;
+const tracks=[['Midnight City','M83 · Demo track','♫'],['Night Drive','Synthwave Radio · Demo','♪'],['Starlight','Electronic Mix · Demo','♬']];
+function setTrack(){let t=tracks[track];$('songTitle').textContent=t[0];$('artist').textContent=t[1];$('cover').textContent=t[2];$('miniText').textContent=(playing?'Playing · ':'Paused · ')+t[0];$('play').textContent=playing?'Ⅱ':'▶'}
+$('play').onclick=e=>{e.stopPropagation();playing=!playing;setTrack()};
+$('prev').onclick=e=>{e.stopPropagation();track=(track+tracks.length-1)%tracks.length;setTrack()};
+$('next').onclick=e=>{e.stopPropagation();track=(track+1)%tracks.length;setTrack()};
+$('chargeToggle').onclick=()=>{let on=$('chargeToggle').classList.toggle('on');$('chargeText').textContent=on?'Charging · demo':'Battery demo';$('miniText').textContent=on?'⚡ Charging · 82%':'Ready · Tap to expand'};
+$('volume').oninput=e=>{$('volumeValue').textContent=e.target.value+'%'};
+$('accent').oninput=e=>document.documentElement.style.setProperty('--accent',e.target.value);
+$('width').oninput=e=>{$('widthLabel').textContent=e.target.value+' px';island.style.width=e.target.value+'px'};
+$('theme').onclick=()=>{let light=document.body.dataset.light!=='1';document.body.dataset.light=light?'1':'0';document.body.style.background=light?'#e8edf0':'radial-gradient(ellipse at 50% -20%,#24352e 0%,#10151c 34%,#080a0e 70%)';document.body.style.color=light?'#101820':'#f4f7fb'};
+$('resetStyle').onclick=()=>{$('accent').value='#b9f6ca';document.documentElement.style.setProperty('--accent','#b9f6ca');$('width').value=160;$('widthLabel').textContent='160 px';island.style.width='160px'};
+$('musicDemo').onclick=()=>{track=0;playing=true;setTrack();$('demoStatus').textContent='Music demo is active.';expand(true)};
+$('callDemo').onclick=()=>{$('songTitle').textContent='Incoming call';$('artist').textContent='Alex · Demo caller';$('cover').textContent='☎';$('miniText').textContent='Incoming call · Alex';$('demoStatus').textContent='Incoming call preview (simulated).';expand(true)};
+$('clearDemo').onclick=()=>{$('songTitle').textContent='Dynamic Island';$('artist').textContent='Ready when you are';$('cover').textContent='◉';$('miniText').textContent='Ready · Tap to expand';$('demoStatus').textContent='Demo cleared.';playing=false;setTrack()};
+$('addNotif').onclick=()=>{$('demoStatus').textContent='A sample notification was added to the demo.';expand(true)};
+let seconds=0, interval=null;
+function renderTimer(){ $('timer').textContent=String(Math.floor(seconds/60)).padStart(2,'0')+':'+String(seconds%60).padStart(2,'0') }
+$('timerStart').onclick=()=>{if(interval){clearInterval(interval);interval=null;$('timerStart').textContent='Start'}else{interval=setInterval(()=>{seconds++;renderTimer()},1000);$('timerStart').textContent='Pause'}};
+$('timerReset').onclick=()=>{clearInterval(interval);interval=null;seconds=0;renderTimer();$('timerStart').textContent='Start'};
+</script>
+</body></html>
